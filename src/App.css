@@ -28,6 +28,14 @@
   color: #61dafb;
 }
 
+.link {
+  text-decoration: none;
+  color: black;
+  background-image: linear-gradient(red 40%, yellow 40%, white 60%, green 70%);
+  color: transparent;
+  background-clip: text;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
