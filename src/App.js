@@ -1,5 +1,6 @@
 import logo from "./logo.svg";
 import "./App.css";
+import React, { useEffect, useState } from "react";
 
 function App() {
   const person = {
@@ -15,6 +16,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Count></Count>
+        <User></User>
         {products.map((pro) => {
           console.log(pro.pName);
           return <Product name={pro.pName} price={pro.price}></Product>;
@@ -24,10 +26,41 @@ function App() {
   );
 }
 
-function Count() {
+function User() {
+  const [users, setUsers] = useState([]);
+  useEffect(async () => {
+    try {
+      const a = await fetch("https://jsonplaceholder.typicode.com/users");
+      const b = await a.json().then((data) => setUsers(data));
+      // console.log(b);
+
+      // console.log(users);
+    } catch (err) {
+      console.error(err);
+    }
+    // .then((data) => setUsers(data));
+  }, []);
+  // console.log(users);
   return (
     <div>
-      <h1>Count: </h1>
+      <h1>Dynamic users: </h1>
+      <ul>
+        {users.map((user) => (
+          <li>{user.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function Count() {
+  const [count, setCount] = useState(0);
+  const handleCount = () => setCount(count + 1);
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count - 1)}>Decrease</button>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
     </div>
   );
 }
