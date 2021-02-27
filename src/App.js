@@ -6,7 +6,24 @@ function App() {
   const person = {
     name: "Shuvasish Talukder Shuvo",
   };
-
+  // const nayoks = [
+  //   { name: "shakib", number: 575 },
+  //   { name: "shuvasish", number: 543 },
+  //   { name: "raj", number: 455 },
+  //   { name: "manna", number: 755 },
+  //   { name: "bappi", number: 5 },
+  // ];
+  const [nayoks, setNayoks] = useState([]);
+  // let a = [];
+  useEffect(() => {
+    fetch("https://randomuser.me/api/?results=100")
+      .then((res) => res.json())
+      .then((data) => {
+        // console.log(nayoks);
+        setNayoks(data.results);
+        // console.log(nayoks);
+      });
+  }, []);
   const products = [
     { pName: "Photoshop", price: "$99.99" },
     { pName: "Illustrator", price: "$49.99" },
@@ -14,6 +31,22 @@ function App() {
   ];
   return (
     <div className="App">
+      {/* <UseApi></UseApi> */}
+      <MovieCounter></MovieCounter>
+      {console.log(nayoks)}
+      {nayoks.map((nayok) => {
+        console.log(nayok);
+        return (
+          <Nayok
+            name={nayok.name.first}
+            src={nayok.picture.large}
+            number={nayok.dob.age}
+            key={nayok.login.md5}
+          ></Nayok>
+        );
+      })}
+      {/* <Nayok name="Razzak" number="75"></Nayok>
+      <Nayok name="Shakib" number="575"></Nayok> */}
       <header className="App-header">
         <Count></Count>
         <User></User>
@@ -22,6 +55,47 @@ function App() {
           return <Product name={pro.pName} price={pro.price}></Product>;
         })}
       </header>
+    </div>
+  );
+}
+
+// function UseApi() {
+//   const [user, setUser] = useState([]);
+//   // let a = [];
+//   useEffect(() => {
+//     fetch("https://randomuser.me/api/?results=10")
+//       .then((res) => res.json())
+//       .then((data) => {
+//         setUser(data);
+//         console.log(user.results);
+//       }, []);
+//   });
+//   return (
+//     <div>
+//       {console.log(user)}
+//       {user.results.map((u) => (
+//         <h1>name:{u.name} </h1>
+//       ))}
+//     </div>
+//   );
+// }
+
+function MovieCounter() {
+  const [number, setNumber] = useState(0);
+  return (
+    <div>
+      <button onClick={() => setNumber(number + 1)}>add movie</button>
+      <h4>Number of movies: {number}</h4>
+    </div>
+  );
+}
+
+function Nayok(props) {
+  return (
+    <div style={{ border: "2px solid gold", margin: "10px" }}>
+      <h1>Ami nayok {props.name}</h1>
+      <img src={props.src} alt="" />
+      <h4>I have done {props.number || 0} movies</h4>
     </div>
   );
 }
